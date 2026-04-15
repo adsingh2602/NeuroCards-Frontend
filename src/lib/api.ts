@@ -1,7 +1,5 @@
 const BASE_URL = "http://localhost:8080/api";
 
-export default BASE_URL;
-
 export interface Deck {
   id: string;
   name: string;
@@ -15,6 +13,7 @@ export interface Flashcard {
   answer: string;
   difficulty: string;
   deckId: string;
+  lastReview?: string;
 }
 
 export interface Progress {
@@ -33,7 +32,6 @@ export async function fetchDecks(): Promise<Deck[]> {
 export async function fetchDeck(id: string): Promise<Flashcard[]> {
   const res = await fetch(`${BASE_URL}/deck/${id}`);
   if (!res.ok) throw new Error("Failed to fetch deck");
-  // return res.json();
   const data = await res.json();
   return data.flashcards || [];
 }
@@ -44,13 +42,19 @@ export async function fetchReviewSession(deckId: string): Promise<Flashcard[]> {
   return res.json();
 }
 
-export async function submitReview(cardId: string, rating: "again" | "good" | "easy"): Promise<void> {
-  const res = await fetch(`${BASE_URL}/review/${cardId}?rating=${rating}`, { method: "POST" });
+export async function submitReview(
+  cardId: string,
+  rating: "again" | "good" | "easy"
+): Promise<void> {
+  const res = await fetch(
+    `${BASE_URL}/review/${cardId}?rating=${rating}`,
+    { method: "POST" }
+  );
   if (!res.ok) throw new Error("Failed to submit review");
 }
 
 export async function fetchProgress(deckId: string): Promise<Progress> {
-  const res = await fetch(`${BASE_URL}/progress/${deckId}`);
+  const res = await fetch(`${BASE_URL}/decks/${deckId}/progress`);
   if (!res.ok) throw new Error("Failed to fetch progress");
   return res.json();
 }
@@ -58,7 +62,20 @@ export async function fetchProgress(deckId: string): Promise<Progress> {
 export async function uploadPdf(file: File): Promise<Deck> {
   const formData = new FormData();
   formData.append("file", file);
-  const res = await fetch(`${BASE_URL}/upload-pdf`, { method: "POST", body: formData });
+
+  const res = await fetch(`${BASE_URL}/upload-pdf`, {
+    method: "POST",
+    body: formData,
+  });
+
   if (!res.ok) throw new Error("Failed to upload PDF");
   return res.json();
+}
+
+export async function deleteDeck(id: number): Promise<void> {
+  const res = await fetch(`${BASE_URL}/decks/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) throw new Error("Failed to delete deck");
 }
