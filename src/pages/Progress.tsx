@@ -53,8 +53,12 @@ const ProgressPage = () => {
                 to={`/progress/${deck.id}`}
                 className="rounded-xl border bg-card p-5 shadow-sm transition-all hover:shadow-md hover:border-primary/30 animate-fade-in"
               >
-                <h3 className="font-semibold text-foreground">{deck.name}</h3>
-              </Link>
+<h3
+  className="font-semibold text-foreground truncate max-w-[200px]"
+  title={deck.name}
+>
+  {deck.name}
+</h3>              </Link>
             ))}
           </div>
         )}

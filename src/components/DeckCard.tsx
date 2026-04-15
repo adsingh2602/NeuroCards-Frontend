@@ -28,7 +28,10 @@ const DeckCard = ({
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-foreground truncate max-w-[200px]">
+          <h3
+            className="font-semibold text-foreground truncate max-w-[200px]"
+            title={deck.name}
+          >
             {deck.name}
           </h3>
 
