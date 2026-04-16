@@ -47,6 +47,7 @@ const Navbar = () => {
           <button
             onClick={() => {
               removeToken();
+              window.location.href = "/login";
               navigate("/login");
             }}
             className="ml-3 px-3 py-2 text-sm bg-red-500 text-white rounded-lg"
