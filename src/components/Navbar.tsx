@@ -11,11 +11,6 @@ const navItems = [
 const Navbar = () => {
   const location = useLocation();
 
-    const handleLogout = () => {
-      removeToken();
-      navigate("/login", { replace: true });
-    };
-
   return (
     <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between">
@@ -50,7 +45,11 @@ const Navbar = () => {
           })}
 
           <button
-            onClick={handleLogout}
+            onClick={() => {
+              removeToken();
+              navigate("/login");
+              window.location.href = "/login";
+            }}
             className="ml-3 px-3 py-2 text-sm bg-red-500 text-white rounded-lg"
           >
             Logout

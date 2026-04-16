@@ -17,25 +17,10 @@ import { getToken } from "@/lib/token";
 
 const queryClient = new QueryClient();
 
-// const ProtectedRoute = ({ children }: any) => {
-//   const token = localStorage.getItem("token");
-//
-//   if (!token) {
-//     return <Navigate to="/login" replace />;
-//   }
-//
-//   return children;
-// };
-//
-// const PublicRoute = ({ children }: any) => {
-//   const token = localStorage.getItem("token");
-//
-//   if (token) {
-//     return <Navigate to="/" replace />;
-//   }
-//
-//   return children;
-// };
+const ProtectedRoute = ({ children }: any) => {
+  const token = getToken();
+  return token ? children : <Navigate to="/login" />;
+};
 
 //OPTIONAL: HIDE NAVBAR ON LOGIN/SIGNUP
 const Layout = ({ children }: any) => {
@@ -113,30 +98,6 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-
-            <Routes>
-
-              {/* PUBLIC */}
-              <Route path="/login" element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              } />
-
-              <Route path="/signup" element={
-                <PublicRoute>
-                  <Signup />
-                </PublicRoute>
-              } />
-
-              {/* PROTECTED */}
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } />
-
-            </Routes>
 
             <Route path="*" element={<NotFound />} />
 
