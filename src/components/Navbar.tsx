@@ -10,7 +10,6 @@ const navItems = [
 
 const Navbar = () => {
   const location = useLocation();
-   const navigate = useNavigate();
 
     const handleLogout = () => {
       removeToken();
