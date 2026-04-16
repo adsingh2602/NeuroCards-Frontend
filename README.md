@@ -11,6 +11,7 @@ Modern UI for NeuroCards built with **React + Vite + TailwindCSS**.
 * 🔄 Flashcard Flip UI
 * 🎯 Review System (Again / Good / Easy)
 * 📊 Progress Dashboard
+* 🔐 Login / Signup (JWT)
 * 🌈 Light professional UI
 
 ---
@@ -31,7 +32,10 @@ Modern UI for NeuroCards built with **React + Vite + TailwindCSS**.
 src/
  ├── components/
  ├── pages/
- ├── lib/api.ts
+ ├── lib/
+      ├──api.ts
+      ├──auth.ts
+      ├──token.ts
  ├── hooks/
 ```
 
@@ -110,6 +114,13 @@ const BASE_URL = "http://localhost:8080/api";
 
 ---
 
+## 🔗 Live link
+
+```
+https://neurocards-iota.vercel.app/
+```
+
+---
 ## 👨‍💻 Author
 
 Amardeep Singh
