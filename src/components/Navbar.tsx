@@ -46,8 +46,8 @@ const Navbar = () => {
 
 
            const handleLogout = () => {
-               removeToken();
-               navigate("/login", {replace: true});
+             localStorage.removeItem("token");
+             navigate("/login", { replace: true });
            };
 
           <button
