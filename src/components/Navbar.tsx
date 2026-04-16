@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Brain, LayoutDashboard, BookOpen, BarChart3 } from "lucide-react";
+import { removeToken } from "@/lib/token";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -17,26 +18,42 @@ const Navbar = () => {
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
             <Brain className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-xl font-bold tracking-tight text-foreground">NeuroCards</span>
+          <span className="text-xl font-bold">NeuroCards</span>
         </Link>
-        <nav className="flex items-center gap-1">
+
+        <nav className="flex items-center gap-2">
+
           {navItems.map(({ to, label, icon: Icon }) => {
-            const active = location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
+            const active =
+              location.pathname === to ||
+              (to !== "/" && location.pathname.startsWith(to));
+
             return (
               <Link
                 key={to}
                 to={to}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
                   active
                     ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    : "text-muted-foreground hover:bg-muted"
                 }`}
               >
                 <Icon className="h-4 w-4" />
-                <span className="hidden sm:inline">{label}</span>
+                {label}
               </Link>
             );
           })}
+
+          <button
+            onClick={() => {
+              removeToken();
+              window.location.href = "/login";
+            }}
+            className="ml-3 px-3 py-2 text-sm bg-red-500 text-white rounded-lg"
+          >
+            Logout
+          </button>
+
         </nav>
       </div>
     </header>

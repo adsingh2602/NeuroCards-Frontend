@@ -16,6 +16,11 @@ const UploadSection = ({ onUploaded }: UploadSectionProps) => {
 
   const handleUpload = async () => {
     if (!file) return;
+
+    if (file.size > 100 * 1024 * 1024) {
+      toast.error("File too large (max 100MB)");
+      return;
+    }
     setUploading(true);
     try {
       const deck = await uploadPdf(file);
@@ -23,8 +28,9 @@ const UploadSection = ({ onUploaded }: UploadSectionProps) => {
       onUploaded(deck);
       setFile(null);
       if (inputRef.current) inputRef.current.value = "";
-    } catch {
-      toast.error("Failed to upload PDF. Please try again.");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "Failed to upload PDF. Please try again.");
     } finally {
       setUploading(false);
     }
