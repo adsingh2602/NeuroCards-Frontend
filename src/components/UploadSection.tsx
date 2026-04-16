@@ -42,7 +42,7 @@ const UploadSection = ({ onUploaded }: UploadSectionProps) => {
       <div className="flex flex-col sm:flex-row gap-3">
         <label className="flex flex-1 cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed px-4 py-3 transition-colors hover:border-primary/50 hover:bg-muted/50">
           <FileText className="h-5 w-5 text-muted-foreground shrink-0" />
-          <span className="text-sm text-muted-foreground truncate">
+          <span className="text-sm text-muted-foreground break-words line-clamp-2">
             {file ? file.name : "Choose a PDF file..."}
           </span>
           <input
