@@ -17,25 +17,25 @@ import { getToken } from "@/lib/token";
 
 const queryClient = new QueryClient();
 
-const ProtectedRoute = ({ children }: any) => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-};
-
-const PublicRoute = ({ children }: any) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-};
+// const ProtectedRoute = ({ children }: any) => {
+//   const token = localStorage.getItem("token");
+//
+//   if (!token) {
+//     return <Navigate to="/login" replace />;
+//   }
+//
+//   return children;
+// };
+//
+// const PublicRoute = ({ children }: any) => {
+//   const token = localStorage.getItem("token");
+//
+//   if (token) {
+//     return <Navigate to="/" replace />;
+//   }
+//
+//   return children;
+// };
 
 //OPTIONAL: HIDE NAVBAR ON LOGIN/SIGNUP
 const Layout = ({ children }: any) => {
