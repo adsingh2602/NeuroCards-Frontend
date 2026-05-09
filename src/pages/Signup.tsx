@@ -11,6 +11,23 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    if (!password.trim()) {
+      toast.error("Password is required");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
     try {
       const res = await signup(email, password);
 
@@ -18,24 +35,21 @@ const Signup = () => {
 
       if (res.token) {
         setToken(res.token);
-        navigate("/login");
         toast.success("Signup successful. Now login.");
-
-      } else {
-        alert("Signup successful. Now login.");
         navigate("/login");
-
+      } else {
+        toast.success("Signup successful. Now login.");
+        navigate("/login");
       }
     } catch (err) {
       console.error(err);
-      alert("User already exists");
+      toast.error("User already exists");
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-muted">
       <div className="w-full max-w-md bg-card p-8 rounded-2xl shadow-lg">
-
         {/* LOGO */}
         <div className="flex justify-center mb-6">
           <img src={logo} alt="logo" className="w-16 h-16" />
@@ -46,8 +60,9 @@ const Signup = () => {
         </h1>
 
         <input
+          type="email"
           className="w-full mb-3 p-3 border rounded-lg"
-          placeholder="Email"
+          placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -58,6 +73,9 @@ const Signup = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSignup();
+          }}
         />
 
         <button

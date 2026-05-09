@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Brain, LayoutDashboard, BookOpen, BarChart3 } from "lucide-react";
 import { removeToken } from "@/lib/token";
 
@@ -10,6 +10,12 @@ const navItems = [
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    removeToken();
+    navigate("/login", { replace: true });
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-md">
@@ -22,7 +28,6 @@ const Navbar = () => {
         </Link>
 
         <nav className="flex items-center gap-2">
-
           {navItems.map(({ to, label, icon: Icon }) => {
             const active =
               location.pathname === to ||
@@ -45,15 +50,11 @@ const Navbar = () => {
           })}
 
           <button
-            onClick={() => {
-              removeToken();
-              navigate("/login");
-            }}
+            onClick={handleLogout}
             className="ml-3 px-3 py-2 text-sm bg-red-500 text-white rounded-lg"
           >
             Logout
           </button>
-
         </nav>
       </div>
     </header>

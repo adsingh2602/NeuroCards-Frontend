@@ -11,20 +11,31 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    if (!password.trim()) {
+      toast.error("Password is required");
+      return;
+    }
+
     try {
       const res = await login(email, password);
 
       console.log("LOGIN RESPONSE:", res);
 
       if (!res.token) {
-        alert("No token received");
+        toast.error("No token received");
         return;
       }
 
       setToken(res.token);
-//       navigate("/dashboard");
-      window.location.href = "/";
       toast.success("Login Successful");
+      navigate("/");
     } catch (err) {
       console.error(err);
       toast.error("Login failed");
@@ -34,8 +45,7 @@ const Login = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-muted">
       <div className="w-full max-w-md bg-card p-8 rounded-2xl shadow-lg">
-
-        {/*LOGO */}
+        {/* LOGO */}
         <div className="flex justify-center mb-6">
           <img src={logo} alt="logo" className="w-16 h-16" />
         </div>
@@ -45,8 +55,9 @@ const Login = () => {
         </h1>
 
         <input
+          type="email"
           className="w-full mb-3 p-3 border rounded-lg"
-          placeholder="Email"
+          placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -57,6 +68,9 @@ const Login = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleLogin();
+          }}
         />
 
         <button

@@ -1,5 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,7 +16,6 @@ import DeckDetails from "@/pages/DeckDetails";
 import Review from "@/pages/Review";
 import ProgressPage from "@/pages/Progress";
 import NotFound from "@/pages/NotFound";
-
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import { getToken } from "@/lib/token";
@@ -19,15 +24,19 @@ const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children }: any) => {
   const token = getToken();
-  return token ? children : <Navigate to="/login" />;
+  return token ? children : <Navigate to="/login" replace />;
 };
 
-//OPTIONAL: HIDE NAVBAR ON LOGIN/SIGNUP
-const Layout = ({ children }: any) => {
+const AppLayout = ({ children }: any) => {
+  const location = useLocation();
   const token = getToken();
+
+  const hideNavbar =
+    location.pathname === "/login" || location.pathname === "/signup";
+
   return (
     <div className="min-h-screen bg-background">
-      {token && <Navbar />}
+      {token && !hideNavbar && <Navbar />}
       {children}
     </div>
   );
@@ -39,9 +48,8 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
+        <AppLayout>
           <Routes>
-
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
 
@@ -100,9 +108,8 @@ const App = () => (
             />
 
             <Route path="*" element={<NotFound />} />
-
           </Routes>
-        </Layout>
+        </AppLayout>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
